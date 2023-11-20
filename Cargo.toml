@@ -1,0 +1,12 @@
+[package]
+name = "numerical_rust" # should maybe change this to numerical [in rust]
+version = "0.1.0"
+edition = "2021"
+license= "Apache-2.0"
+description="This is a port of the ideas in the Numerical Haskell project, extensible matrix computation"
+authors=["Carter T Schonwald <firstname.lastname@gmail.com>"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+readme = "README.md"
+
+
+[dependencies]
