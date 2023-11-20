@@ -7,7 +7,7 @@
 pub trait Layout <const RANK : usize> {
     // add code here
     type Address ;// should this have a copy or clone?
-    const RANK : usize ;
+    // const RANK : usize ;
     
     fn compare_index(&self, lhs :Index<{RANK}>, rhs:Index<{RANK}>)-> std::cmp::Ordering;
     // type Index;  
@@ -24,9 +24,11 @@ pub trait Layout <const RANK : usize> {
     //  seek index is conceptually like next address, 
     // but rather than computing the successor Index, it find the 
     //  
-    fn seek_index(&self,ix : Index<{RANK}>, guess : Option<Self::Address> )-> Option<> ;
-
-
+    fn seek_index(&self,ix : Index<{RANK}>, guess : Option<Self::Address> )-> Option<(Index<{RANK}>,Self::Address)> ;
 }
 
-type Index<const RANK:usize> = [usize;RANK];
+pub type Index<const RANK:usize> = [usize;RANK];
+
+pub fn next_index<const RANK :usize,T : Layout<{RANK}>>() -> (){
+    return ()
+}
