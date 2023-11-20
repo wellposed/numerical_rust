@@ -1,5 +1,5 @@
-// #![feature(min_const_generics)]
 #![feature(generic_const_exprs)]
+#![allow(incomplete_features)]
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right

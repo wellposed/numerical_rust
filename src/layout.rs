@@ -4,7 +4,7 @@
 // Rank is a property of an instance... right?
 pub trait Layout<const RANK: usize> {
     // add code here
-    type Address; // should this have a copy or clone?
+    type Address : Copy + Clone + Sized; // should this have a copy or clone?
                   // const RANK : usize ;
 
     fn compare_index(&self, lhs: Index<{ RANK }>, rhs: Index<{ RANK }>) -> std::cmp::Ordering;
