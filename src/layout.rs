@@ -31,6 +31,9 @@ pub trait Layout<const RANK: usize> {
 
 pub type Index<const RANK: usize> = [usize; RANK];
 
-pub fn next_index<const RANK: usize, T: Layout<{ RANK }>>() -> () {
-    return ();
+pub fn next_index<const RANK: usize, T: Layout<{ RANK }>>(
+    lay: T,
+    ix: Index<{ RANK }>,
+) -> Option<(Index<{ RANK }>, T::Address)> {
+    return lay.seek_index(ix, None);
 }
