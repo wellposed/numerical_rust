@@ -4,11 +4,16 @@
 // Rank is a property of an instance... right?
 pub trait Layout<const RANK: usize> {
     // add code here
-    type Address : Copy + Clone + Sized; // should this have a copy or clone?
-                  // const RANK : usize ;
+    type Address: Copy + Clone + Sized; // should this have a copy or clone? is Sized always true?
+                                        // const RANK : usize ;
 
-    fn compare_index(&self, lhs: Index<{ RANK }>, rhs: Index<{ RANK }>) -> std::cmp::Ordering;
+    fn compare_index(
+        &self,
+        lhs: Index<{ RANK }>,
+        rhs: Index<{ RANK }>,
+    ) -> Option<std::cmp::Ordering>;
     // type Index;
+    // const
     // type Index : RankedIx ; // should always be []
     // forall v : Index,  v.length = RANK ; all else is an error
     // type Index= [usize;Self::RANK];
@@ -27,6 +32,14 @@ pub trait Layout<const RANK: usize> {
         ix: Index<{ RANK }>,
         guess: Option<Self::Address>,
     ) -> Option<(Index<{ RANK }>, Self::Address)>;
+
+    // returns the number of manifest entries, inclusive interval, defined only for valid addresses
+    fn pop_count(&self, lb: Self::Address, ub: Self::Address) -> usize;
+}
+
+pub struct LayoutIterator<T: Layout<{ RANK }>, const RANK: usize> {
+    pub layout: T,
+    pub addr: T::Address,
 }
 
 pub type Index<const RANK: usize> = [usize; RANK];
