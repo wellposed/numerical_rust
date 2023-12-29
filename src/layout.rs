@@ -7,6 +7,7 @@ pub trait Layout<const RANK: usize> {
     type Address: Copy + Clone + Sized; // should this have a copy or clone? is Sized always true?
                                         // const RANK : usize ;
 
+    type TransposedLayout : Layout<RANK>;
     fn compare_index(
         &self,
         lhs: Index<{ RANK }>,
@@ -19,34 +20,38 @@ pub trait Layout<const RANK: usize> {
     // type Index= [usize;Self::RANK];
     fn first_address(&self) -> Self::Address;
     fn last_address(&self) -> Self::Address;
-    fn next_address(&self, addr: Self::Address) -> Option<Self::Address>;
+    
     /*
 
     */
-    fn address2index(&self, addr: Self::Address) -> Option<Index<{ RANK }>>;
+    fn address2index(&self, addr: Self::Address) -> Index<RANK >;
     //  seek index is conceptually like next address,
     // but rather than computing the successor Index, it find the
     //
+
+    fn next_address(&self, addr: Self::Address) -> Option<Self::Address>;
     fn seek_index(
         &self,
-        ix: Index<{ RANK }>,
+        ix: Index< RANK >,
         guess: Option<Self::Address>,
-    ) -> Option<(Index<{ RANK }>, Self::Address)>;
+    ) -> Option<(Index< RANK >, Self::Address)>;
+
+    fn next_index(&self, ix: Index< RANK >) -> Option<(Index< RANK >, Self::Address)> {
+        self.seek_index(ix, None)
+    }
+
+    // fn next_index_until(&self ) // we want something that limits the span  of the scan! 
+
+    fn index2address(&self,ix: Index< RANK >)->Option<Index<RANK >> ;
+
 
     // returns the number of manifest entries, inclusive interval, defined only for valid addresses
     fn pop_count(&self, lb: Self::Address, ub: Self::Address) -> usize;
 }
 
-pub struct LayoutIterator<T: Layout<{ RANK }>, const RANK: usize> {
+pub struct LayoutIterator<T: Layout< RANK >, const RANK: usize> {
     pub layout: T,
     pub addr: T::Address,
 }
 
 pub type Index<const RANK: usize> = [usize; RANK];
-
-pub fn next_index<const RANK: usize, T: Layout<{ RANK }>>(
-    lay: T,
-    ix: Index<{ RANK }>,
-) -> Option<(Index<{ RANK }>, T::Address)> {
-    return lay.seek_index(ix, None);
-}
