@@ -41,9 +41,9 @@ pub trait Layout<const RANK: usize> {
     }
 
     // fn next_index_until(&self ) // we want something that limits the span  of the scan! 
+    // fn next_index_until(&self ) // we want something that limits the span  of the scan!
 
-    fn index2address(&self,ix: Index< RANK >)->Option<Index<RANK >> ;
-
+    fn index2address(&self, ix: Index<RANK>) -> Option<Self::Address>;
 
     // returns the number of manifest entries, inclusive interval, defined only for valid addresses
     fn pop_count(&self, lb: Self::Address, ub: Self::Address) -> usize;
